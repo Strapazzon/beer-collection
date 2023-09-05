@@ -1,0 +1,6 @@
+---
+title: Punk Beer Catalog
+description: We are pleased to introduce our new Punk Beer Catalog Web Application, which is designed to help you explore the wonderful world of punk beers. With this new application, you can browse through our extensive collection of punk beers and discover new and exciting brands that you may have never heard of before. We hope you enjoy using this application as much as we enjoyed creating it!"
+keywords: punk, beer, catalog, punk beer catalog, punk beer, punk catalog, punk beer catalog web application, punk beer catalog web app, punk beer catalog web, punk beer catalog app, punk beer catalog application, punk beer catalog web application, punk beer catalog web app, punk beer catalog web, punk beer catalog app, punk beer catalog application, punk beer catalog web application, punk beer catalog web app, punk beer catalog web, punk beer catalog app, punk beer catalog application, punk beer catalog web application, punk beer catalog web app, punk beer catalog web, punk beer catalog app, punk beer catalog application, punk beer catalog web application, punk beer catalog web app, punk beer catalog web, punk beer catalog app, punk beer catalog application, punk beer catalog web application, punk beer catalog web app, punk beer catalog web, punk beer catalog app, punk beer catalog application
+imagePath: /assets/open-graph.png
+---
