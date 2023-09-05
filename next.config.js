@@ -3,6 +3,9 @@ const path = require("path");
 
 const nextConfig = {
   reactStrictMode: true,
+  images: {
+    domains: ["images.punkapi.com"],
+  },
   sassOptions: {
     includePaths: [path.join(__dirname, "src/styles")],
   },
