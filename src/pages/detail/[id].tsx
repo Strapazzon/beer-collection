@@ -1,7 +1,11 @@
-import Link from "next/link";
 import { PageSeo, PageSeoProps } from "@modules/common/PageSeo";
 import { PunkBeer } from "@modules/common/PunkApiClient/punkApi.types";
-import { GetStaticPaths, GetStaticProps, NextPage } from "next";
+import {
+  GetServerSideProps,
+  GetStaticPaths,
+  GetStaticProps,
+  NextPage,
+} from "next";
 import { PunkApiClient } from "@modules/common/PunkApiClient";
 import {
   Box,
@@ -16,12 +20,11 @@ import {
 } from "@radix-ui/themes";
 import { PageHeader } from "@modules/components/PageHeader";
 import { ToggleThemeButton } from "@modules/components/ToggleThemeButton";
-import { MyCollectionContext } from "@modules/common/MyCollection/myCollectionProvider";
-import { useContext } from "react";
 import { getGrayMatter } from "@gray-matter/index";
 import { ChevronLeftIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
 import { styled } from "@modules/Theme";
+import { useRouter } from "next/router";
 
 type DetailPageData = {
   data: PunkBeer;
@@ -33,18 +36,17 @@ type DetailPageParams = {
   id: string;
 };
 
-const ImageHolder = styled(Card, {
+const ImageHolder = styled(Box, {
+  minWidth: "$3500",
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-  minWidth: "$3500",
-  flex: 1,
+  height: "$full",
 });
 
 const DetailPage: NextPage<DetailPageData> = ({ data, seoData, i18n }) => {
-  const { myCollectionIds } = useContext(MyCollectionContext);
-
   const [imgWidth, imgHeight] = [144, 570];
+  const router = useRouter();
 
   return (
     <>
@@ -53,21 +55,14 @@ const DetailPage: NextPage<DetailPageData> = ({ data, seoData, i18n }) => {
         <PageHeader
           rightSlot={
             <Flex direction="row" gap="4">
-              <Link href={`/collection?ids=${myCollectionIds?.toString()}`}>
-                <Button variant="ghost">
-                  <Text size="3">{i18n?.myCollectionButton}</Text>
-                </Button>
-              </Link>
               <ToggleThemeButton />
             </Flex>
           }
           leftSlot={
-            <Link href="/">
-              <Button variant="ghost">
-                <ChevronLeftIcon width="24" height="24" />
-                <Text size="3">{i18n?.backButton}</Text>
-              </Button>
-            </Link>
+            <Button variant="ghost" onClick={() => router.back()}>
+              <ChevronLeftIcon width="24" height="24" />
+              <Text size="3">{i18n?.backButton}</Text>
+            </Button>
           }
         ></PageHeader>
 
@@ -80,16 +75,27 @@ const DetailPage: NextPage<DetailPageData> = ({ data, seoData, i18n }) => {
           }}
           gap="4"
         >
-          <ImageHolder>
-            <Image
-              src={data.image_url ?? "/assets/bootle-placeholder.png"}
-              alt={data.name}
-              width={imgWidth}
-              height={imgHeight}
-            />
-          </ImageHolder>
+          <Card>
+            <ImageHolder>
+              <Image
+                src={data.image_url ?? "/assets/bootle-placeholder.png"}
+                alt={`${data.name} ${i18n?.bottleImage}`}
+                width={imgWidth}
+                height={imgHeight}
+              />
+            </ImageHolder>
+          </Card>
 
           <Flex direction="column" gap="4">
+            <Heading size="8" weight="bold">
+              {data.name}
+            </Heading>
+
+            <Text size="2">{data.description}</Text>
+
+            <Heading size="4">{i18n?.food}</Heading>
+            <Text size="2">{data.food_pairing.join(", ")}</Text>
+
             <Heading size="4">{i18n?.details}</Heading>
             <Table.Root>
               <Table.Body>
@@ -98,8 +104,8 @@ const DetailPage: NextPage<DetailPageData> = ({ data, seoData, i18n }) => {
                     <Text weight="bold">{i18n?.malt}</Text>
                   </Table.RowHeaderCell>
                   <Table.Cell>
-                    {data.ingredients.malt.map((malt) => (
-                      <Box key={malt.name}>
+                    {data.ingredients.malt.map((malt, index) => (
+                      <Box key={index}>
                         {malt.name} - {malt.amount.value} {malt.amount.unit}
                       </Box>
                     ))}
@@ -111,8 +117,8 @@ const DetailPage: NextPage<DetailPageData> = ({ data, seoData, i18n }) => {
                     <Text weight="bold">{i18n?.hops}</Text>
                   </Table.RowHeaderCell>
                   <Table.Cell>
-                    {data.ingredients.hops.map((hops) => (
-                      <Box key={hops.name}>
+                    {data.ingredients.hops.map((hops, index) => (
+                      <Box key={index}>
                         {hops.name} - {hops.amount.value} {hops.amount.unit}
                       </Box>
                     ))}
@@ -159,17 +165,6 @@ const DetailPage: NextPage<DetailPageData> = ({ data, seoData, i18n }) => {
             </Table.Root>
           </Flex>
         </Flex>
-        <Box my="4">
-          <Heading size="8" weight="bold">
-            {data.name}
-          </Heading>
-
-          <Text size="2">{data.description}</Text>
-
-          <Separator size="4" my="3" />
-          <Heading size="4">{i18n?.food}</Heading>
-          <Text size="2">{data.food_pairing.join(", ")}</Text>
-        </Box>
       </Container>
     </>
   );
@@ -177,7 +172,7 @@ const DetailPage: NextPage<DetailPageData> = ({ data, seoData, i18n }) => {
 
 export default DetailPage;
 
-export const getStaticProps: GetStaticProps<
+export const getServerSideProps: GetServerSideProps<
   DetailPageData,
   DetailPageParams
 > = async ({ params }) => {
@@ -200,7 +195,7 @@ export const getStaticProps: GetStaticProps<
   const seoData: PageSeoProps = {
     title: beer.name,
     description: beer.description,
-    imageUrl: beer.image_url,
+    imageUrl: beer.image_url ?? `${process.env.SITE_URL}/assets/open-graph.png`,
     keywords: beer.tagline.split(" ").toString(),
   };
 
@@ -213,20 +208,5 @@ export const getStaticProps: GetStaticProps<
       i18n,
     },
     revalidate: Number(process.env.REVALIDATE_STATIC_PAGES ?? 0),
-  };
-};
-
-export const getStaticPaths: GetStaticPaths = async () => {
-  const maxBeerId = Number(process.env.MAX_BEER_ID ?? 324);
-
-  const paths = new Array(maxBeerId).fill(0).map((_, index) => ({
-    params: {
-      id: (index + 1).toString(),
-    },
-  }));
-
-  return {
-    paths,
-    fallback: true,
   };
 };

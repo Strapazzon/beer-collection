@@ -10,4 +10,5 @@ boilVolume: Boil Volume
 brewers: Brewers
 firstBrewed: First Brewed
 food: Food
+bottleImage: bottle image
 ---
