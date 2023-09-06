@@ -65,7 +65,7 @@ const DetailPage: NextPage<DetailPageData> = ({ data, seoData, i18n }) => {
         <Flex
           direction={{
             lg: "row",
-            md: "row",
+            md: "column",
             sm: "column",
             xs: "column",
           }}
