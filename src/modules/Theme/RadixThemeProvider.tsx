@@ -1,5 +1,6 @@
 import React, { createContext } from "react";
 import { Theme, ThemeOptions } from "@radix-ui/themes";
+import { useMediaQuery } from "@modules/common/hooks/useMediaQuery";
 
 const theme: Partial<ThemeOptions> = {
   radius: "small",
@@ -23,7 +24,12 @@ export const RadixThemeContext = createContext<RadixThemeContextProps>(
 export const RadixThemeProvider: React.FC<RadixThemeProviderProps> = ({
   children,
 }) => {
-  const [darkMode, setDarkMode] = React.useState<boolean>(false);
+  const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
+  const [darkMode, setDarkMode] = React.useState<boolean>(true);
+
+  React.useEffect(() => {
+    setDarkMode(prefersDarkMode);
+  }, [prefersDarkMode]);
 
   return (
     <RadixThemeContext.Provider value={{ darkMode, setDarkMode }}>

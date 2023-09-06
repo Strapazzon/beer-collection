@@ -31,7 +31,6 @@ export const PageSeo: React.FC<PageSeoProps> = ({
   imagePath = "/assets/open-graph.png",
   keywords = "",
 }) => {
-  console.log(`${SITE_URL}${imagePath}`);
   return (
     <NextSeo
       title={title}

@@ -4,7 +4,7 @@ import { PunkBeer } from "@modules/PunkApiClient/punkApi.types";
 
 type BeerGridProps = {
   data: PunkBeer[];
-  renderCard?: (beer: PunkBeer) => React.ReactNode;
+  renderCard?: (beer: PunkBeer, index?: number) => React.ReactNode;
 };
 
 export const BeerGrid: React.FC<BeerGridProps> = ({
@@ -18,7 +18,7 @@ export const BeerGrid: React.FC<BeerGridProps> = ({
       gapY="6"
       width="auto"
     >
-      {data.map((beer) => renderCard(beer))}
+      {data.map((beer, index) => renderCard(beer, index))}
     </Grid>
   );
 };

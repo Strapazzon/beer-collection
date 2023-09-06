@@ -1,14 +1,20 @@
 import React from "react";
 import Image from "next/image";
 import { PunkBeer } from "@modules/PunkApiClient/punkApi.types";
-import { Card, Flex, Heading, Separator } from "@radix-ui/themes";
+import { Button, Card, Flex, Heading, Separator } from "@radix-ui/themes";
 import { ShortText } from "../UI/ShortText";
+import { styled } from "@stitches/react";
+import { PlusIcon } from "@radix-ui/react-icons";
 
 type CatalogBeerCardProps = {
   data: PunkBeer;
 };
 
 const [imageWidth, imageHeight] = [48, 190];
+
+const AddToCollectionButton = styled(Button, {
+  width: "$full",
+});
 
 export const CatalogBeerCard: React.FC<CatalogBeerCardProps> = ({ data }) => {
   const { id, image_url, name, tagline, description } = data;
@@ -29,9 +35,14 @@ export const CatalogBeerCard: React.FC<CatalogBeerCardProps> = ({ data }) => {
       <ShortText size="2" maxLines={1} mb="2">
         {tagline}
       </ShortText>
-      <ShortText size="1" maxLines={4}>
+      <ShortText size="1" maxLines={2}>
         {description}
       </ShortText>
+
+      <AddToCollectionButton size="2" variant="surface" mt="4">
+        <PlusIcon />
+        Add to my collection
+      </AddToCollectionButton>
     </Card>
   );
 };

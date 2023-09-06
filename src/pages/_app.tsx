@@ -6,7 +6,7 @@ import { RadixThemeProvider } from "@modules/Theme/RadixThemeProvider";
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <RadixThemeProvider>
-      <Component {...pageProps} />;
+      <Component {...pageProps} />
     </RadixThemeProvider>
   );
 }

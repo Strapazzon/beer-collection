@@ -10,5 +10,12 @@ export const {
   createTheme,
   config,
 } = createStitches({
-  theme: {},
+  theme: {
+    colors: {
+      background: "var(--color-page-background)",
+    },
+    sizes: {
+      full: "100%",
+    },
+  },
 });

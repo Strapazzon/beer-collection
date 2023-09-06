@@ -7,6 +7,10 @@ import { CatalogBeerCard } from "@modules/components/CatalogBeerCard";
 import { PageSeo, PageSeoProps } from "@modules/common/PageSeo";
 import { getGrayMatter } from "../gray-matter";
 import { BeerGrid } from "@modules/components/BeerGrid";
+import { Pagination } from "@modules/components/Pagination";
+import { useRouter } from "next/router";
+import { SearchBar } from "@modules/components/SearchBar";
+import { useCallback } from "react";
 
 type HomePageData = {
   data: PunkBeer[];
@@ -14,16 +18,62 @@ type HomePageData = {
 };
 
 const Home: NextPage<HomePageData> = ({ data, seoData }) => {
+  const { query } = useRouter();
+
+  const showPagination = !query?.search;
+  const currentPage = (query?.page as string) ?? "1";
+
+  const hrefNextPage = `/?page=${parseInt(currentPage) + 1}`;
+  const hrefPreviousPage = `/?page=${parseInt(currentPage) - 1}`;
+
+  const router = useRouter();
+
+  const handlerSearch = useCallback(
+    (search?: string) => {
+      if (search?.length === 0) {
+        router.push({
+          pathname: "/",
+        });
+        return;
+      } else {
+        router.push({
+          pathname: "/",
+          query: {
+            search,
+          },
+        });
+      }
+    },
+    [router]
+  );
+
   return (
     <>
       {seoData ? <PageSeo {...seoData} /> : null}
 
       <Container size="4">
-        <PageHeader pageTitle="Beer catalog" />
-
+        <PageHeader pageTitle={seoData?.title}>
+          <SearchBar
+            placeholder="Search beers by name or food"
+            onSearch={handlerSearch}
+            boxProps={{
+              my: "3",
+            }}
+          />
+        </PageHeader>
         <BeerGrid
           data={data}
           renderCard={(beer) => <CatalogBeerCard key={beer.id} data={beer} />}
+        />
+        <Pagination
+          boxProps={{
+            my: "6",
+          }}
+          hrefNextPage={hrefNextPage}
+          hrefPreviousPage={hrefPreviousPage}
+          disabledPreviousPage={parseInt(currentPage) === 1}
+          disabledNextPage={data.length < 24}
+          hidden={!showPagination}
         />
       </Container>
     </>
@@ -35,27 +85,30 @@ export default Home;
 export const getServerSideProps: GetServerSideProps<HomePageData> = async ({
   query,
 }) => {
-  const { page, page_size } = query ?? {};
+  const { page, search } = query ?? {};
 
-  if (Array.isArray(page) || Array.isArray(page_size)) {
+  if (Array.isArray(page)) {
     return {
       notFound: true,
     };
   }
 
-  if (
-    (page && isNaN(parseInt(page))) ||
-    (page_size && isNaN(parseInt(page_size)))
-  ) {
+  if (page && isNaN(parseInt(page))) {
     return {
       notFound: true,
     };
   }
 
   const parsedPage = page ? parseInt(page) : 1;
-  const parsedPageSize = page_size ? parseInt(page_size) : 10;
+  const parsedPageSize = 24;
 
-  const data = await PunkApiClient.getBeers(parsedPage, parsedPageSize);
+  let data: PunkBeer[] = [];
+
+  if (search) {
+    data = await PunkApiClient.searchBeers(search as string);
+  } else {
+    data = await PunkApiClient.getBeers(parsedPage, parsedPageSize);
+  }
   const seoData = getGrayMatter<PageSeoProps>("home-seo");
   return {
     props: {
