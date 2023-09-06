@@ -47,7 +47,7 @@ const DetailPage: NextPage<DetailPageData> = ({ data, seoData, i18n }) => {
   return (
     <I18nProvider i18n={i18n}>
       {seoData ? <PageSeo {...seoData} /> : null}
-      <Container size="4">
+      <Container size="4" mb="9">
         <PageHeader
           rightSlot={
             <Flex direction="row" gap="4">

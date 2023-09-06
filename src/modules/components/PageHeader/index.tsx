@@ -25,7 +25,7 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
   rightSlot,
 }) => {
   return (
-    <Wrapper {...boxProps}>
+    <Wrapper {...boxProps} my="4">
       <Flex direction="row" align="center" justify="between">
         {leftSlot}
         <Heading

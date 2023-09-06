@@ -25,27 +25,13 @@ export const MyCollectionProvider: React.FC<MyCollectionProviderProps> = ({
   const { storedValue: myCollection, setValue: setCollectionId } =
     useBrowserStorage<string>("my-collection", "");
 
-  const newCollection = useCallback(
-    async (id: number) => {
-      const { collectionId } = await CollectionClient.newCollection();
-      setCollectionId(collectionId);
-
-      const { ids } = await CollectionClient.addBeerToCollection(
-        collectionId,
-        id
-      );
-
-      setCollectionIds(ids);
-    },
-    [setCollectionId]
-  );
+  const newCollection = useCallback(async () => {
+    const { collectionId } = await CollectionClient.newCollection();
+    setCollectionId(collectionId);
+  }, [setCollectionId]);
 
   const addToMyCollection = useCallback(
     async (id: number) => {
-      if (!myCollection) {
-        return newCollection(id);
-      }
-
       const { ids } = await CollectionClient.addBeerToCollection(
         myCollection,
         id
@@ -53,7 +39,7 @@ export const MyCollectionProvider: React.FC<MyCollectionProviderProps> = ({
 
       setCollectionIds(ids);
     },
-    [myCollection, newCollection]
+    [myCollection]
   );
 
   const removeFromMyCollection = useCallback(
@@ -88,7 +74,11 @@ export const MyCollectionProvider: React.FC<MyCollectionProviderProps> = ({
 
   useEffect(() => {
     getCollectionIds();
-  }, [getCollectionIds]);
+
+    if (!myCollection) {
+      newCollection();
+    }
+  }, [getCollectionIds, myCollection, newCollection]);
 
   return (
     <MyCollectionContext.Provider
