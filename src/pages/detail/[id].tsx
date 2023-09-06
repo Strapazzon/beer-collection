@@ -1,11 +1,6 @@
 import { PageSeo, PageSeoProps } from "@modules/common/PageSeo";
 import { PunkBeer } from "@modules/common/PunkApiClient/punkApi.types";
-import {
-  GetServerSideProps,
-  GetStaticPaths,
-  GetStaticProps,
-  NextPage,
-} from "next";
+import { GetServerSideProps, NextPage } from "next";
 import { PunkApiClient } from "@modules/common/PunkApiClient";
 import {
   Box,
@@ -14,7 +9,6 @@ import {
   Container,
   Flex,
   Heading,
-  Separator,
   Table,
   Text,
 } from "@radix-ui/themes";
@@ -25,7 +19,7 @@ import { ChevronLeftIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
 import { styled } from "@modules/Theme";
 import { useRouter } from "next/router";
-import { I18nProvider } from "@modules/common/I18n/i18nProvider";
+import { I18nProvider } from "@modules/common/I18n/I18nContext";
 import { CollectionAddOrRemoveBeerButton } from "@modules/components/CollectionAddOrRemoveBeerButton";
 
 type DetailPageData = {

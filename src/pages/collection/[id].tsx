@@ -8,11 +8,12 @@ import { getGrayMatter } from "../../gray-matter";
 import { BeerGrid } from "@modules/components/BeerGrid";
 import { PunkApiClient } from "@modules/common/PunkApiClient";
 import { ToggleThemeButton } from "@modules/components/ToggleThemeButton";
-import { ChevronLeftIcon, HomeIcon } from "@radix-ui/react-icons";
+import { ChevronLeftIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
+import { I18nProvider } from "@modules/common/I18n/I18nContext";
+import { kv } from "@vercel/kv";
 import { useContext } from "react";
 import { MyCollectionContext } from "@modules/common/MyCollection/myCollectionProvider";
-import { I18nProvider } from "@modules/common/I18n/i18nProvider";
 
 type CollectionPageData = {
   data: PunkBeer[];
@@ -20,12 +21,14 @@ type CollectionPageData = {
   i18n?: Record<string, string>;
 };
 
-const Collection: NextPage<CollectionPageData> = ({ data, seoData, i18n }) => {
-  const { myCollectionIds } = useContext(MyCollectionContext);
+type CollectionPageParams = {
+  id: string;
+};
 
-  const filteredData = data.filter((beer) =>
-    myCollectionIds?.includes(beer.id)
-  );
+const Collection: NextPage<CollectionPageData> = ({ data, seoData, i18n }) => {
+  const { collectionIds } = useContext(MyCollectionContext);
+
+  const filteredData = data.filter((beer) => collectionIds?.includes(beer.id));
 
   return (
     <I18nProvider i18n={i18n}>
@@ -60,19 +63,26 @@ const Collection: NextPage<CollectionPageData> = ({ data, seoData, i18n }) => {
 export default Collection;
 
 export const getServerSideProps: GetServerSideProps<
-  CollectionPageData
-> = async ({ query }) => {
-  const { ids } = query ?? {};
+  CollectionPageData,
+  CollectionPageParams
+> = async ({ params }) => {
+  const { id } = params ?? {};
 
-  if (typeof ids !== "string") {
+  if (typeof id !== "string") {
     return {
       notFound: true,
     };
   }
 
-  const arrIds = ids.split(",");
-  const data = await PunkApiClient.getBeersByIds(arrIds);
+  const arrIds = await kv.lrange<string>(id, 0, -1);
 
+  if (!arrIds) {
+    return {
+      notFound: true,
+    };
+  }
+
+  const data = await PunkApiClient.getBeersByIds(arrIds);
   const seoData = getGrayMatter<PageSeoProps>("home-seo");
   const i18n = getGrayMatter<Record<string, string>>("collection");
   return {

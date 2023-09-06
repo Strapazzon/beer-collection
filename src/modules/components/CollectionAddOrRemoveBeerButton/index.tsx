@@ -3,7 +3,7 @@ import { MyCollectionContext } from "@modules/common/MyCollection/myCollectionPr
 import { styled } from "@modules/Theme";
 import { Button } from "@radix-ui/themes";
 import { MinusIcon, PlusIcon } from "@radix-ui/react-icons";
-import { I18nContext } from "@modules/common/I18n/i18nProvider";
+import { I18nContext } from "@modules/common/I18n/I18nContext";
 
 type CollectionAddOrRemoveBeerButtonProps = {
   id: number;

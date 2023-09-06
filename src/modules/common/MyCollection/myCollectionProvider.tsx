@@ -1,11 +1,13 @@
-import React, { createContext, useCallback } from "react";
+import React, { createContext, useCallback, useEffect, useState } from "react";
 import { useBrowserStorage } from "@modules/common/hooks/useBrowserStorage";
+import { CollectionClient } from "../CollectionCLient";
 
 type MyCollectionContextProps = {
-  myCollectionIds?: number[];
+  myCollection?: string;
   addToMyCollection: (id: number) => void;
   removeFromMyCollection: (id: number) => void;
   isBeerInMyCollection: (id: number) => boolean;
+  collectionIds?: number[];
 };
 
 type MyCollectionProviderProps = {
@@ -19,40 +21,83 @@ export const MyCollectionContext = createContext<MyCollectionContextProps>(
 export const MyCollectionProvider: React.FC<MyCollectionProviderProps> = ({
   children,
 }) => {
-  const { storedValue: myCollectionIds, setValue } = useBrowserStorage<
-    number[]
-  >("my-collection", []);
+  const [collectionIds, setCollectionIds] = useState<number[]>();
+  const { storedValue: myCollection, setValue: setCollectionId } =
+    useBrowserStorage<string>("my-collection", "");
+
+  const newCollection = useCallback(
+    async (id: number) => {
+      const { collectionId } = await CollectionClient.newCollection();
+      setCollectionId(collectionId);
+
+      const { ids } = await CollectionClient.addBeerToCollection(
+        collectionId,
+        id
+      );
+
+      setCollectionIds(ids);
+    },
+    [setCollectionId]
+  );
 
   const addToMyCollection = useCallback(
-    (id: number) => {
-      if (myCollectionIds.includes(id)) {
-        return;
+    async (id: number) => {
+      if (!myCollection) {
+        return newCollection(id);
       }
-      setValue([...myCollectionIds, id]);
+
+      const { ids } = await CollectionClient.addBeerToCollection(
+        myCollection,
+        id
+      );
+
+      setCollectionIds(ids);
     },
-    [myCollectionIds, setValue]
+    [myCollection, newCollection]
   );
 
   const removeFromMyCollection = useCallback(
-    (id: number) => {
-      const list = myCollectionIds.filter((item) => item !== id);
-      setValue(list);
+    async (id: number) => {
+      const { ids } = await CollectionClient.removeBeerFromCollection(
+        myCollection,
+        id
+      );
+
+      setCollectionIds(ids);
     },
-    [myCollectionIds, setValue]
+    [myCollection]
   );
 
   const isBeerInMyCollection = useCallback(
-    (id: number) => myCollectionIds.includes(id),
-    [myCollectionIds]
+    (id: number) => {
+      if (!collectionIds) {
+        return false;
+      }
+
+      return collectionIds.includes(id);
+    },
+    [collectionIds]
   );
+
+  const getCollectionIds = useCallback(async () => {
+    if (!collectionIds && myCollection) {
+      const { ids } = await CollectionClient.getCollection(myCollection);
+      setCollectionIds(ids);
+    }
+  }, [collectionIds, myCollection]);
+
+  useEffect(() => {
+    getCollectionIds();
+  }, [getCollectionIds]);
 
   return (
     <MyCollectionContext.Provider
       value={{
-        myCollectionIds,
+        myCollection,
         addToMyCollection,
         removeFromMyCollection,
         isBeerInMyCollection,
+        collectionIds,
       }}
     >
       {children}

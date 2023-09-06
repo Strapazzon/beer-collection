@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { GetServerSideProps, NextPage } from "next";
 import { PunkApiClient } from "@modules/common/PunkApiClient";
 import { Button, Container, Flex, Text } from "@radix-ui/themes";
@@ -11,10 +12,9 @@ import { Pagination } from "@modules/components/Pagination";
 import { useRouter } from "next/router";
 import { SearchBar } from "@modules/components/SearchBar";
 import { useCallback, useContext } from "react";
-import Link from "next/link";
 import { ToggleThemeButton } from "@modules/components/ToggleThemeButton";
 import { MyCollectionContext } from "@modules/common/MyCollection/myCollectionProvider";
-import { I18nProvider } from "@modules/common/I18n/i18nProvider";
+import { I18nProvider } from "@modules/common/I18n/I18nContext";
 
 type HomePageData = {
   data: PunkBeer[];
@@ -30,7 +30,7 @@ const Home: NextPage<HomePageData> = ({ data, seoData, i18n }) => {
 
   const hrefNextPage = `/?page=${parseInt(currentPage) + 1}`;
   const hrefPreviousPage = `/?page=${parseInt(currentPage) - 1}`;
-  const { myCollectionIds } = useContext(MyCollectionContext);
+  const { myCollection } = useContext(MyCollectionContext);
 
   const router = useRouter();
 
@@ -62,7 +62,7 @@ const Home: NextPage<HomePageData> = ({ data, seoData, i18n }) => {
           pageTitle={seoData?.title}
           rightSlot={
             <Flex direction="row" gap="4">
-              <Link href={`/collection?ids=${myCollectionIds?.toString()}`}>
+              <Link href={`/collection/${myCollection}`}>
                 <Button variant="ghost">
                   <Text size="3">{i18n?.myCollectionButton}</Text>
                 </Button>
