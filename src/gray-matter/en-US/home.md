@@ -1,0 +1,3 @@
+---
+myCollectionButton: My collection
+---

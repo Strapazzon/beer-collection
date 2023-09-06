@@ -1,6 +1,6 @@
 import { getUniqueListBy } from "@modules/libs/arrays";
 import { http } from "@modules/libs/http";
-import { PunkBeer } from "@modules/PunkApiClient/punkApi.types";
+import { PunkBeer } from "@modules/common/PunkApiClient/punkApi.types";
 
 const baseUrl = process.env.PUNK_API_URL ?? "";
 export const PunkApiClient = {
@@ -9,8 +9,8 @@ export const PunkApiClient = {
     return await http<PunkBeer[]>(url);
   },
 
-  getBeer: async (id: number): Promise<PunkBeer> => {
-    return await http<PunkBeer>(`${baseUrl}/${id}`);
+  getBeer: async (id: number | string): Promise<PunkBeer[]> => {
+    return await http<PunkBeer[]>(`${baseUrl}/${id}`);
   },
 
   searchBeers: async (query: string): Promise<PunkBeer[]> => {
@@ -21,5 +21,10 @@ export const PunkApiClient = {
     const beersByFood = await http<PunkBeer[]>(`${baseUrl}/?food=${query}`);
 
     return getUniqueListBy<PunkBeer>([...beersByName, ...beersByFood], "id");
+  },
+
+  getBeersByIds: async (ids: number[] | string[]): Promise<PunkBeer[]> => {
+    const queryIds = ids.join("|");
+    return await http<PunkBeer[]>(`${baseUrl}/?ids=${queryIds}`);
   },
 };

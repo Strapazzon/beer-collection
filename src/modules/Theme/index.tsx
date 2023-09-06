@@ -16,6 +16,7 @@ export const {
     },
     sizes: {
       full: "100%",
+      3500: "35rem",
     },
   },
 });

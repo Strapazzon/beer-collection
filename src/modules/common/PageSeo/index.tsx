@@ -1,5 +1,4 @@
 import { NextSeo } from "next-seo";
-import { type } from "os";
 import React from "react";
 
 export type PageSeoProps = {
@@ -7,6 +6,7 @@ export type PageSeoProps = {
   title: string;
   description: string;
   imagePath?: string;
+  imageUrl?: string | null;
   keywords?: string;
 };
 
@@ -30,7 +30,9 @@ export const PageSeo: React.FC<PageSeoProps> = ({
   description,
   imagePath = "/assets/open-graph.png",
   keywords = "",
+  imageUrl,
 }) => {
+  const ogImage = imageUrl ?? `${SITE_URL}${imagePath}`;
   return (
     <NextSeo
       title={title}
@@ -41,7 +43,7 @@ export const PageSeo: React.FC<PageSeoProps> = ({
         description: description,
         images: [
           {
-            url: `${SITE_URL}${imagePath}`,
+            url: ogImage,
             width: 800,
             height: 600,
             alt: title,

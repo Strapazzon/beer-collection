@@ -1,12 +1,16 @@
-import React from "react";
-import { Box, Flex, Heading, Separator } from "@radix-ui/themes";
+import React, { useContext } from "react";
+import { Box, Button, Flex, Heading, Separator, Text } from "@radix-ui/themes";
 import { ToggleThemeButton } from "../ToggleThemeButton";
 import { styled } from "@modules/Theme";
+import Link from "next/link";
+import { MyCollectionContext } from "@modules/common/MyCollection/myCollectionProvider";
 
 type PageHeaderProps = {
   boxProps?: React.ComponentProps<typeof Box>;
   pageTitle?: string;
   children?: React.ReactNode;
+  rightSlot?: React.ReactNode;
+  leftSlot?: React.ReactNode;
 };
 
 const Wrapper = styled(Box, {
@@ -20,10 +24,13 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
   boxProps,
   pageTitle,
   children,
+  leftSlot,
+  rightSlot,
 }) => {
   return (
     <Wrapper {...boxProps}>
       <Flex direction="row" align="center" justify="between">
+        {leftSlot}
         <Heading
           mb="2"
           size={{
@@ -35,9 +42,7 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
         >
           {pageTitle}
         </Heading>
-        <Flex direction="row" align="center" gap="4">
-          <ToggleThemeButton />
-        </Flex>
+        {rightSlot}
       </Flex>
       {children}
       <Separator mt="4" mb="6" size="4" />

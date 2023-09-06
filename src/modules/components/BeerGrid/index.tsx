@@ -1,6 +1,6 @@
 import React from "react";
 import { Grid } from "@radix-ui/themes";
-import { PunkBeer } from "@modules/PunkApiClient/punkApi.types";
+import { PunkBeer } from "@modules/common/PunkApiClient/punkApi.types";
 
 type BeerGridProps = {
   data: PunkBeer[];
