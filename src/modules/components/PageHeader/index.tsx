@@ -1,9 +1,6 @@
-import React, { useContext } from "react";
-import { Box, Button, Flex, Heading, Separator, Text } from "@radix-ui/themes";
-import { ToggleThemeButton } from "../ToggleThemeButton";
+import React from "react";
+import { Box, Flex, Heading, Separator } from "@radix-ui/themes";
 import { styled } from "@modules/Theme";
-import Link from "next/link";
-import { MyCollectionContext } from "@modules/common/MyCollection/myCollectionProvider";
 
 type PageHeaderProps = {
   boxProps?: React.ComponentProps<typeof Box>;

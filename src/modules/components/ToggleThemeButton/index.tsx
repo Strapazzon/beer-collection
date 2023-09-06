@@ -5,10 +5,12 @@ import React, { SVGAttributes, useContext } from "react";
 
 type ToggleThemeButtonProps = {
   size?: SVGAttributes<SVGElement>["width"];
+  ariaLabel?: string;
 };
 
 export const ToggleThemeButton: React.FC<ToggleThemeButtonProps> = ({
   size = "24",
+  ariaLabel = "Toggle theme",
 }) => {
   const { setDarkMode, darkMode } = useContext(RadixThemeContext);
 
@@ -17,7 +19,7 @@ export const ToggleThemeButton: React.FC<ToggleThemeButtonProps> = ({
   };
 
   return (
-    <Button variant="ghost" onClick={toggleDarkMode}>
+    <Button variant="ghost" onClick={toggleDarkMode} aria-label={ariaLabel}>
       {darkMode ? (
         <SunIcon width={size} height={size} />
       ) : (

@@ -3,6 +3,7 @@ import { MyCollectionContext } from "@modules/common/MyCollection/myCollectionPr
 import { styled } from "@modules/Theme";
 import { Button } from "@radix-ui/themes";
 import { MinusIcon, PlusIcon } from "@radix-ui/react-icons";
+import { I18nContext } from "@modules/common/I18n/i18nProvider";
 
 type CollectionAddOrRemoveBeerButtonProps = {
   id: number;
@@ -15,6 +16,7 @@ const AddOrRemoveButton = styled(Button, {
 export const CollectionAddOrRemoveBeerButton: React.FC<
   CollectionAddOrRemoveBeerButtonProps
 > = ({ id }) => {
+  const { i18n } = useContext(I18nContext);
   const { addToMyCollection, isBeerInMyCollection, removeFromMyCollection } =
     useContext(MyCollectionContext);
 
@@ -36,7 +38,7 @@ export const CollectionAddOrRemoveBeerButton: React.FC<
         onClick={handlerClick}
       >
         <MinusIcon />
-        Remove from my collection
+        {i18n?.removeFromCollectionButton}
       </AddOrRemoveButton>
     );
   }
@@ -44,7 +46,7 @@ export const CollectionAddOrRemoveBeerButton: React.FC<
   return (
     <AddOrRemoveButton size="2" variant="surface" mt="4" onClick={handlerClick}>
       <PlusIcon />
-      Add to my collection
+      {i18n?.addToCollectionButton}
     </AddOrRemoveButton>
   );
 };

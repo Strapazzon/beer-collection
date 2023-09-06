@@ -7,19 +7,20 @@ import { PageSeo, PageSeoProps } from "@modules/common/PageSeo";
 import { getGrayMatter } from "../../gray-matter";
 import { BeerGrid } from "@modules/components/BeerGrid";
 import { PunkApiClient } from "@modules/common/PunkApiClient";
-import { type } from "os";
 import { ToggleThemeButton } from "@modules/components/ToggleThemeButton";
 import { ChevronLeftIcon, HomeIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import { useContext } from "react";
 import { MyCollectionContext } from "@modules/common/MyCollection/myCollectionProvider";
+import { I18nProvider } from "@modules/common/I18n/i18nProvider";
 
 type CollectionPageData = {
   data: PunkBeer[];
   seoData?: PageSeoProps;
+  i18n?: Record<string, string>;
 };
 
-const Collection: NextPage<CollectionPageData> = ({ data, seoData }) => {
+const Collection: NextPage<CollectionPageData> = ({ data, seoData, i18n }) => {
   const { myCollectionIds } = useContext(MyCollectionContext);
 
   const filteredData = data.filter((beer) =>
@@ -27,7 +28,7 @@ const Collection: NextPage<CollectionPageData> = ({ data, seoData }) => {
   );
 
   return (
-    <>
+    <I18nProvider i18n={i18n}>
       {seoData ? <PageSeo {...seoData} /> : null}
 
       <Container size="4">
@@ -35,14 +36,14 @@ const Collection: NextPage<CollectionPageData> = ({ data, seoData }) => {
           pageTitle="My Collection"
           rightSlot={
             <Flex direction="row" gap="4">
-              <ToggleThemeButton />
+              <ToggleThemeButton ariaLabel={i18n?.toggleThemeLabel} />
             </Flex>
           }
           leftSlot={
             <Link href="/">
               <Button variant="ghost">
                 <ChevronLeftIcon width="24" height="24" />
-                Back
+                {i18n?.backButtonLabel}
               </Button>
             </Link>
           }
@@ -52,7 +53,7 @@ const Collection: NextPage<CollectionPageData> = ({ data, seoData }) => {
           renderCard={(beer) => <CatalogBeerCard key={beer.id} data={beer} />}
         />
       </Container>
-    </>
+    </I18nProvider>
   );
 };
 
@@ -73,10 +74,12 @@ export const getServerSideProps: GetServerSideProps<
   const data = await PunkApiClient.getBeersByIds(arrIds);
 
   const seoData = getGrayMatter<PageSeoProps>("home-seo");
+  const i18n = getGrayMatter<Record<string, string>>("collection");
   return {
     props: {
       data,
       seoData,
+      i18n,
     },
   };
 };

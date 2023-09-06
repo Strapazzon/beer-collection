@@ -25,6 +25,8 @@ import { ChevronLeftIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
 import { styled } from "@modules/Theme";
 import { useRouter } from "next/router";
+import { I18nProvider } from "@modules/common/I18n/i18nProvider";
+import { CollectionAddOrRemoveBeerButton } from "@modules/components/CollectionAddOrRemoveBeerButton";
 
 type DetailPageData = {
   data: PunkBeer;
@@ -49,13 +51,13 @@ const DetailPage: NextPage<DetailPageData> = ({ data, seoData, i18n }) => {
   const router = useRouter();
 
   return (
-    <>
+    <I18nProvider i18n={i18n}>
       {seoData ? <PageSeo {...seoData} /> : null}
       <Container size="4">
         <PageHeader
           rightSlot={
             <Flex direction="row" gap="4">
-              <ToggleThemeButton />
+              <ToggleThemeButton ariaLabel={i18n?.toggleThemeLabel} />
             </Flex>
           }
           leftSlot={
@@ -163,10 +165,11 @@ const DetailPage: NextPage<DetailPageData> = ({ data, seoData, i18n }) => {
                 </Table.Row>
               </Table.Body>
             </Table.Root>
+            <CollectionAddOrRemoveBeerButton id={data.id} />
           </Flex>
         </Flex>
       </Container>
-    </>
+    </I18nProvider>
   );
 };
 
@@ -207,6 +210,5 @@ export const getServerSideProps: GetServerSideProps<
       seoData,
       i18n,
     },
-    revalidate: Number(process.env.REVALIDATE_STATIC_PAGES ?? 0),
   };
 };

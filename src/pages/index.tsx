@@ -14,6 +14,7 @@ import { useCallback, useContext } from "react";
 import Link from "next/link";
 import { ToggleThemeButton } from "@modules/components/ToggleThemeButton";
 import { MyCollectionContext } from "@modules/common/MyCollection/myCollectionProvider";
+import { I18nProvider } from "@modules/common/I18n/i18nProvider";
 
 type HomePageData = {
   data: PunkBeer[];
@@ -53,7 +54,7 @@ const Home: NextPage<HomePageData> = ({ data, seoData, i18n }) => {
   );
 
   return (
-    <>
+    <I18nProvider i18n={i18n}>
       {seoData ? <PageSeo {...seoData} /> : null}
 
       <Container size="4">
@@ -66,7 +67,7 @@ const Home: NextPage<HomePageData> = ({ data, seoData, i18n }) => {
                   <Text size="3">{i18n?.myCollectionButton}</Text>
                 </Button>
               </Link>
-              <ToggleThemeButton />
+              <ToggleThemeButton ariaLabel={i18n?.toggleThemeLabel} />
             </Flex>
           }
         >
@@ -93,7 +94,7 @@ const Home: NextPage<HomePageData> = ({ data, seoData, i18n }) => {
           hidden={!showPagination}
         />
       </Container>
-    </>
+    </I18nProvider>
   );
 };
 

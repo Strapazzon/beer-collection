@@ -4,7 +4,11 @@ import matter from "gray-matter";
 
 const MDS_PATH = "src/gray-matter";
 
-export type GrayMatterAvailableMds = "home-seo" | "home" | "detail";
+export type GrayMatterAvailableMds =
+  | "home-seo"
+  | "home"
+  | "detail"
+  | "collection";
 
 export const getGrayMatter = <T,>(
   uid: GrayMatterAvailableMds,
