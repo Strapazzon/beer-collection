@@ -32,9 +32,9 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
           mb="2"
           size={{
             lg: "8",
-            md: "5",
-            sm: "3",
-            xs: "2",
+            md: "6",
+            xs: "5",
+            initial: "5",
           }}
         >
           {pageTitle}

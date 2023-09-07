@@ -27,7 +27,14 @@ export const SearchBar: React.FC<SearchBarProps> = ({
 
   return (
     <Box {...boxProps}>
-      <TextField.Root>
+      <TextField.Root
+        size={{
+          lg: "1",
+          md: "2",
+          xs: "3",
+          initial: "3",
+        }}
+      >
         <TextField.Slot>
           <MagnifyingGlassIcon height="16" width="16" />
         </TextField.Slot>

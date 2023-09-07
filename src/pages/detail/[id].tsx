@@ -64,12 +64,14 @@ const DetailPage: NextPage<DetailPageData> = ({ data, seoData, i18n }) => {
 
         <Flex
           direction={{
-            lg: "row",
-            md: "column",
-            sm: "column",
+            initial: "column",
             xs: "column",
+            md: "column",
+            lg: "row",
+            xl: "row",
           }}
           gap="4"
+          id="detail-page"
         >
           <Card>
             <ImageHolder>

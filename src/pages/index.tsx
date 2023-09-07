@@ -64,7 +64,17 @@ const Home: NextPage<HomePageData> = ({ data, seoData, i18n }) => {
             <Flex direction="row" gap="4">
               <Link href={`/collection/${myCollection}`}>
                 <Button variant="ghost">
-                  <Text size="3">{i18n?.myCollectionButton}</Text>
+                  <Text
+                    size={{
+                      initial: "2",
+                      xs: "2",
+                      md: "2",
+                      lg: "2",
+                      xl: "2",
+                    }}
+                  >
+                    {i18n?.myCollectionButton}
+                  </Text>
                 </Button>
               </Link>
               <ToggleThemeButton ariaLabel={i18n?.toggleThemeLabel} />
