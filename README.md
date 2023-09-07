@@ -13,6 +13,8 @@ Using [NextJS](https://nextjs.org/) and its server-side rendering power, I can o
 To persist user sessions and collection information on the backend side, I have decided to use [Vercel KV](https://vercel.com/docs/storage/vercel-kv). This is a Redis persistence database in-memory, which has excellent performance.
 To ensure data persistence and optimal performance for user sessions and collection information on the backend side, I decided to use Vercel KV. This Redis persistence database in-memory provides excellent performance and reliability.
 
+I have chosen to use the Cypress suite for testing purposes, as it is a highly efficient testing framework that is well integrated with both React and NextJS. Cypress offers a range of features that allow for comprehensive testing of web applications, such as automated testing, debugging, and real-time reloads. Additionally, Cypress provides an easy-to-use interface for creating and managing test suites, making it a great choice for developers of all skill levels. By utilizing the Cypress suite, I can ensure that my website is thoroughly tested and optimized for optimal performance and user experience.
+
 To host this project on the web, I have decided to use the Vercel platform, which is optimized for NextJS.
 
 ## Technologies and libraries
@@ -22,6 +24,7 @@ To host this project on the web, I have decided to use the Vercel platform, whic
 - [Stitches](https://stitches.dev)
 - [Vercel KV](https://vercel.com/docs/storage/vercel-kv)
 - [Vercel](https://vercel.com)
+- [Cypress](https://www.cypress.io/)
 
 ## Lighthouse performance report
 
