@@ -1,0 +1,25 @@
+name: Cypress Tests
+
+on: push
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Cypress run
+        uses: cypress-io/github-action@v6
+        with:
+          build: npm run build
+          start: npm start
+        env:
+          PUNK_API_URL: ${{ secrets.PUNK_API_URL }}
+          SITE_URL: ${{ secrets.SITE_URL }}
+          MAX_ITEMS_PER_PAGE: ${{ secrets.MAX_ITEMS_PER_PAGE }}
+          MAX_BEER_ID: ${{ secrets.MAX_BEER_ID }}
+          KV_URL: ${{ secrets.KV_URL }}
+          KV_REST_API_URL: ${{ secrets.KV_REST_API_URL }}
+          KV_REST_API_TOKEN: ${{ secrets.KV_REST_API_TOKEN }}
+          KV_REST_API_READ_ONLY_TOKEN: ${{ secrets.KV_REST_API_READ_ONLY_TOKEN }}
+          REDIS_COLLECTION_PREFIX=: ${{ secrets.REDIS_COLLECTION_PREFIX }}
