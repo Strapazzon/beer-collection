@@ -8,45 +8,39 @@ type CollectionResponse = {
   ids: number[];
 };
 
+const defaultHeaders = {
+  "Content-Type": "application/json",
+};
+
 export const CollectionClient = {
   newCollection: async () => {
     return await http<NewCollectionResponse>("/api/collection/new", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: defaultHeaders,
     });
   },
 
   addBeerToCollection: async (collectionId: string, beerId: number) => {
     return await http<CollectionResponse>(`/api/collection/${collectionId}`, {
       method: "POST",
+      headers: defaultHeaders,
       body: JSON.stringify({
         beerId,
       }),
-      headers: {
-        "Content-Type": "application/json",
-      },
     });
   },
 
   removeBeerFromCollection: async (collectionId: string, beerId: number) => {
     return await http<CollectionResponse>(`/api/collection/${collectionId}`, {
       method: "DELETE",
+      headers: defaultHeaders,
       body: JSON.stringify({
         beerId,
       }),
-      headers: {
-        "Content-Type": "application/json",
-      },
     });
   },
 
   getCollection: async (collectionId: string) => {
-    return await http<CollectionResponse>(`/api/collection/${collectionId}`, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    return await http<CollectionResponse>(`/api/collection/${collectionId}`);
   },
 };

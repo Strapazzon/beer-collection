@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import { PunkBeer } from "@modules/common/PunkApiClient/punkApi.types";
 import { Card, Flex, Heading, Separator } from "@radix-ui/themes";
-import { ShortText } from "../UI/ShortText";
+import { ShortText } from "@modules/components/UI/ShortText";
 import { CollectionAddOrRemoveBeerButton } from "@modules/components/CollectionAddOrRemoveBeerButton";
 import Link from "next/link";
 

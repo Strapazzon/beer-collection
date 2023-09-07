@@ -1,6 +1,6 @@
 import React, { createContext, useCallback, useEffect, useState } from "react";
 import { useBrowserStorage } from "@modules/common/hooks/useBrowserStorage";
-import { CollectionClient } from "../CollectionCLient";
+import { CollectionClient } from "@modules/common/CollectionCLient";
 
 type MyCollectionContextProps = {
   myCollection?: string;

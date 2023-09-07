@@ -9,18 +9,18 @@ import {
   Container,
   Flex,
   Heading,
-  Table,
   Text,
 } from "@radix-ui/themes";
 import { PageHeader } from "@modules/components/PageHeader";
 import { ToggleThemeButton } from "@modules/components/ToggleThemeButton";
-import { getGrayMatter } from "@gray-matter/index";
+import { getGrayMatter } from "@gray-matter";
 import { ChevronLeftIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
 import { styled } from "@modules/Theme";
 import { useRouter } from "next/router";
 import { I18nProvider } from "@modules/common/I18n/I18nContext";
 import { CollectionAddOrRemoveBeerButton } from "@modules/components/CollectionAddOrRemoveBeerButton";
+import { BeerDetailsTable } from "@modules/components/BeerDetailsTable";
 
 type DetailPageData = {
   data: PunkBeer;
@@ -92,73 +92,7 @@ const DetailPage: NextPage<DetailPageData> = ({ data, seoData, i18n }) => {
             <Heading size="4">{i18n?.food}</Heading>
             <Text size="2">{data.food_pairing.join(", ")}</Text>
 
-            <Heading size="4">{i18n?.details}</Heading>
-            <Table.Root>
-              <Table.Body>
-                <Table.Row>
-                  <Table.RowHeaderCell>
-                    <Text weight="bold">{i18n?.malt}</Text>
-                  </Table.RowHeaderCell>
-                  <Table.Cell>
-                    {data.ingredients.malt.map((malt, index) => (
-                      <Box key={index}>
-                        {malt.name} - {malt.amount.value} {malt.amount.unit}
-                      </Box>
-                    ))}
-                  </Table.Cell>
-                </Table.Row>
-
-                <Table.Row>
-                  <Table.RowHeaderCell>
-                    <Text weight="bold">{i18n?.hops}</Text>
-                  </Table.RowHeaderCell>
-                  <Table.Cell>
-                    {data.ingredients.hops.map((hops, index) => (
-                      <Box key={index}>
-                        {hops.name} - {hops.amount.value} {hops.amount.unit}
-                      </Box>
-                    ))}
-                  </Table.Cell>
-                </Table.Row>
-
-                <Table.Row>
-                  <Table.RowHeaderCell>
-                    <Text weight="bold">{i18n?.yeast}</Text>
-                  </Table.RowHeaderCell>
-                  <Table.Cell>{data.ingredients.yeast}</Table.Cell>
-                </Table.Row>
-
-                <Table.Row>
-                  <Table.RowHeaderCell>
-                    <Text weight="bold">{i18n?.attenuation}</Text>
-                  </Table.RowHeaderCell>
-                  <Table.Cell>{data.attenuation_level}</Table.Cell>
-                </Table.Row>
-
-                <Table.Row>
-                  <Table.RowHeaderCell>
-                    <Text weight="bold">{i18n?.boilVolume}</Text>
-                  </Table.RowHeaderCell>
-                  <Table.Cell>
-                    {data.boil_volume.value} {data.boil_volume.unit}
-                  </Table.Cell>
-                </Table.Row>
-
-                <Table.Row>
-                  <Table.RowHeaderCell>
-                    <Text weight="bold">{i18n?.brewers}</Text>
-                  </Table.RowHeaderCell>
-                  <Table.Cell>{data.brewers_tips}</Table.Cell>
-                </Table.Row>
-
-                <Table.Row>
-                  <Table.RowHeaderCell>
-                    <Text weight="bold">{i18n?.firstBrewed}</Text>
-                  </Table.RowHeaderCell>
-                  <Table.Cell>{data.first_brewed}</Table.Cell>
-                </Table.Row>
-              </Table.Body>
-            </Table.Root>
+            <BeerDetailsTable data={data} />
             <CollectionAddOrRemoveBeerButton id={data.id} />
           </Flex>
         </Flex>

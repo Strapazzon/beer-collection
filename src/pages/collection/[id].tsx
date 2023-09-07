@@ -4,7 +4,7 @@ import { PageHeader } from "@modules/components/PageHeader";
 import { PunkBeer } from "@modules/common/PunkApiClient/punkApi.types";
 import { CatalogBeerCard } from "@modules/components/CatalogBeerCard";
 import { PageSeo, PageSeoProps } from "@modules/common/PageSeo";
-import { getGrayMatter } from "../../gray-matter";
+import { getGrayMatter } from "@gray-matter";
 import { BeerGrid } from "@modules/components/BeerGrid";
 import { PunkApiClient } from "@modules/common/PunkApiClient";
 import { ToggleThemeButton } from "@modules/components/ToggleThemeButton";
