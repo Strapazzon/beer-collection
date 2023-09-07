@@ -1,4 +1,4 @@
-import { RadixThemeContext } from "@modules/Theme/RadixThemeProvider";
+import { RadixThemeContext } from "@modules/theme/RadixThemeProvider";
 import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
 import { Button } from "@radix-ui/themes";
 import React, { SVGAttributes, useContext } from "react";

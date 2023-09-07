@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Flex, Heading, Separator } from "@radix-ui/themes";
-import { styled } from "@modules/Theme";
+import { styled } from "@modules/theme";
 
 type PageHeaderProps = {
   boxProps?: React.ComponentProps<typeof Box>;

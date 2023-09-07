@@ -16,7 +16,7 @@ import { ToggleThemeButton } from "@modules/components/ToggleThemeButton";
 import { getGrayMatter } from "@gray-matter";
 import { ChevronLeftIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
-import { styled } from "@modules/Theme";
+import { styled } from "@modules/theme";
 import { useRouter } from "next/router";
 import { I18nProvider } from "@modules/common/I18n/I18nContext";
 import { CollectionAddOrRemoveBeerButton } from "@modules/components/CollectionAddOrRemoveBeerButton";

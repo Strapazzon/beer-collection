@@ -1,26 +1,97 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+### Live link: [https://beer-collection-theta.vercel.app/](https://beer-collection-theta.vercel.app/)
+
+## Beer collection
+
+The Beer Collection is a web application that features a catalog of Punk beers. With this application, users can create their own custom collections from the Punk catalog.
+
+## Architecture
+
+For this project, I decided to use the [Radix UI](https://www.radix-ui.com) framework and themes. It allows for the quick development of beautiful applications with fast coding. Additionally, I included the [Stitches](https://stitches.dev) styled library based on class tokens to ensure good performance for pages.
+
+Using [NextJS](https://nextjs.org/) and its server-side rendering power, I can optimize pages for both performance and SEO.
+
+To persist user sessions and collection information on the backend side, I have decided to use [Vercel KV](https://vercel.com/docs/storage/vercel-kv). This is a Redis persistence database in-memory, which has excellent performance.
+To ensure data persistence and optimal performance for user sessions and collection information on the backend side, I decided to use Vercel KV. This Redis persistence database in-memory provides excellent performance and reliability.
+
+To host this project on the web, I have decided to use the Vercel platform, which is optimized for NextJS.
+
+## Technologies and libraries
+
+- [NextJS](https://nextjs.org/)
+- [Radix UI](https://www.radix-ui.com)
+- [Stitches](https://stitches.dev)
+- [Vercel KV](https://vercel.com/docs/storage/vercel-kv)
+- [Vercel](https://vercel.com)
+
+## Lighthouse performance report
+
+![Alt text](https://share.cleanshot.com/k4cT2X33+)
+
+### A project directory layout
+
+    .
+    ├── cypress
+        ├── downloads
+        ├── e2e
+        ├── fixtures
+        ├── support
+    ├── public
+        ├── assets
+    ├── src                     # Source files
+        ├── gray-matter
+        ├── modules
+            ├── common
+            ├── components
+            ├── libs
+            ├── theme
+        ├── pages
+            ├── api
+        ├── styles
+
+## Requirements
+
+Vercel KV storage [https://vercel.com/docs/storage/vercel-kv](https://vercel.com/docs/storage/vercel-kv)
+
+## Environment variables:
+
+Create a new file named `.env.local` in the project's root directory and add the following variables to it:
+
+```dosini
+# .env.example, committed to repo
+PUNK_API_URL=
+SITE_URL=
+MAX_ITEMS_PER_PAGE=
+MAX_BEER_ID=
+KV_URL=
+KV_REST_API_URL=
+KV_REST_API_TOKEN=
+KV_REST_API_READ_ONLY_TOKEN=
+REDIS_COLLECTION_PREFIX=
+```
 
 ## Getting Started
+
+Install dependencies:
+
+```bash
+npm install
+```
 
 First, run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+```
+
+## Cypress Tests
+
+```bash
+npm run cypress
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
 ## Learn More
 
@@ -34,5 +105,3 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 ## Deploy on Vercel
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
